@@ -1,0 +1,50 @@
+1.通过使用列表，元组，字典等类型的表达式(comprehension),可以对迭代对象按需处理，并避免了多重循环的复杂样式。
+
+2.generic operations that span multiple types show up as built-in functions or expressions (e.g.,
+  len(X) , X[0] ), but type-specific operations are method calls (e.g., aString.upper() ).
+  比如在sginfo.py脚本中用max()对字符串做处理
+
+************************************************************************
+sginfo.py:
+sg_dic =
+{..
+'SGAPPDCN  ':
+[..
+['2019-05-23', '23:54:00', 'SGAPPDCN  ', '  1,474.8', ' 68.7'], 
+['2019-05-23', '23:55:00', 'SGAPPDCN  ', '  1,474.8', ' 68.7'], 
+['2019-05-23', '23:56:00', 'SGAPPDCN  ', '  1,474.8', ' 68.7'], 
+['2019-05-23', '23:57:00', 'SGAPPDCN  ', '  1,474.8', ' 68.7'],
+['2019-05-23', '23:58:00', 'SGAPPDCN  ', '  1,474.8', ' 68.7'],
+['2019-05-23', '23:59:00', 'SGAPPDCN  ', '  1,474.8', ' 68.7'],
+'1476.9',                      #max capacity
+'22.299999999999997'           #peak usage
+]
+}
+
+SGAPPDCS   1,260.7 72.0
+SGTSO      23.7 45.0
+SGDUMP     15.8 0.20000000000000284
+SGAPPABO   2,394.7 81.5
+SGSHR      23.7 69.5
+SGAPABLO   2,592.9 52.9
+SGHSM      7.9 73.3
+SGAPPSHD   31.7 2.5
+SGARC      7.9 0.20000000000000284
+SGAPPLOD   7.9 52.3
+SGAAFILE   491.6 66.9
+SGAPPATH   761.2 71.9
+SGZVM      0.0 100.0
+SGSPILL    95.1 0.20000000000000284
+SGAPPABP   10,958.6 77.9
+SGAPPABN   3,330.4 76.2
+SGLOG      71.3 57.3
+SGAPPLAB   3,742.7 49.0
+SGSMF      1,054.6 72.6
+SGAPPRPT   31.7 61.4
+SGAPPFTE   31.7 27.700000000000003
+SGCALOG    71.3 1.0999999999999943
+SGSORT     578.8 49.5
+SGAPPDCN   1,476.9 22.299999999999997
+SGAPPAML   2,569.1 70.0
+************************************************************************
+
