@@ -1,6 +1,12 @@
+import os
 import xlrd,xlwt
 from xlutils.copy import copy
 
+def file_name_walk(file_dir):
+	for root, dirs, files in os.walk(file_dir):
+		filenames = [f for f in files if 'SUMALL' in f]
+	return filenames
+		
 def get_sg_peak(*,
                 filenm
                  ):
@@ -30,28 +36,37 @@ def get_sg_peak(*,
 		
 	return sg_dic
 
-filename = 'SUMALL.D190524'
-xlsname = 'SGINFO.XLS'
+xlsname = 'SGINFO.XLS'     #specify excel file to be updated.
+all_data = {}
+data_dir = os.path.split(os.path.realpath(__file__))[0]
 style = xlwt.easyxf('pattern: pattern solid, fore_colour turquoise;')
 
-dic1 = get_sg_peak(filenm=filename)
+filenames = file_name_walk(data_dir)
+filenames.sort()
 
+for filename in filenames:
+    all_data[filename[7:14]] = get_sg_peak(filenm=filename)
+    
 try:
 	old_excel = xlrd.open_workbook(xlsname, formatting_info = True)
 except FileNotFoundError:
-	print('未找到excel文件')
+	print('excel file not located in current location.')
 else:    
 	new_excel = copy(old_excel)
 	ws = old_excel.sheet_by_index(0)
-	for i in range(1,len(ws.col(0))):
-		sgname = ws.cell_value(i,0)
-		new_excel.get_sheet(0).write(i,1,dic1[sgname][-2])
-		if dic1[sgname][-1] < 75:
-			new_excel.get_sheet(0).write(i,2,dic1[sgname][-1])
-		else:
- 			new_excel.get_sheet(0).write(i,2,dic1[sgname][-1],style)
+	c = 2   #first day peak data start @colume 2(count from zero)
+	for k,v in all_data.items():
+		new_excel.get_sheet(0).write(0,c,k)  #date
+		for i in range(1,len(ws.col(0))):
+			sgname = ws.cell_value(i,0)
+			new_excel.get_sheet(0).write(i,1,v[sgname][-2])  #capacity
+			if v[sgname][-1] < 75:
+				new_excel.get_sheet(0).write(i,c,v[sgname][-1]) #peak
+			else:
+	 			new_excel.get_sheet(0).write(i,c,v[sgname][-1],style)
+		c=c+1	 		
 
 new_excel.save(xlsname)
 
-# for k,v in dic1.items():
-	# print(k,"{},{:5.1f}".format(v[-2],v[-1]))
+for k in all_data.keys():
+	print(k)
